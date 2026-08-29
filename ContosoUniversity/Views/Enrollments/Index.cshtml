@@ -1,0 +1,31 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Enrollments";
+}
+
+<h2>Enrollments</h2>
+
+<p>
+    @Html.ActionLink("Create New Enrollment", "Create")
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.StudentName</td>
+                <td>@item.CourseTitle</td>
+                <td>@item.Grade</td>
+            </tr>
+        }
+    </tbody>
+</table>
