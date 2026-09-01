@@ -1,5 +1,7 @@
 <Solution>
-  <Folder Name="/BusinessLogic/" />
+  <Folder Name="/BusinessLogic/">
+    <Project Path="BusinessObject/BusinessObject.csproj" Id="27ec4565-5eae-4f8d-9994-491af24f9693" />
+  </Folder>
   <Folder Name="/DataAccess/">
     <Project Path="DataAccess/DataAccess.csproj" Id="213ed578-9dfc-46cc-a8a0-3562fc6f20bf" />
   </Folder>
