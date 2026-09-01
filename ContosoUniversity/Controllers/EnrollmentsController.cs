@@ -1,79 +1,123 @@
 ﻿using ContosoUniversity.Data;
 using ContosoUniversity.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace ContosoUniversity.Controllers
 {
-    public class EnrollmentsController : Controller // Defines a controller named EnrollmentsController that inherits from Controller, giving it MVC functionality.
+    public class EnrollmentsController : Controller
     {
-        private readonly SchoolContext _context;//its called a depedency injection .Declares a private field to hold the database context.
+        private readonly SchoolContext _context;
 
-        public EnrollmentsController(SchoolContext context)// its called a Constructor injection: ASP.NET Core automatically provides a SchoolContext when this controller is created.
+        public EnrollmentsController(SchoolContext context)
         {
-            _context = context;// Stores the injected context in the private field for later use.
+            _context = context;
         }
 
         // GET: /Enrollments
-        public IActionResult Index()//Handles GET requests to /Enrollments.
-
-
+        public IActionResult Index()
         {
-            var enrollments = _context.Enrollments//Queries the Enrollments table.
+            var enrollments = _context.Enrollments
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .ToList();
 
-
-                .Select(e => new // Projects each enrollment into an anonymous object with selected fields
-                {
-                    e.EnrollmentID,// the enrollment’s ID
-                    StudentName = e.Student.LastName,//pulls the student’s last name
-                    CourseTitle = e.Course.Title,//pulls the course title
-                    e.Grade// the grade 
-                })
-                .ToList();//Executes the query and returns a list.
-
-            return View(enrollments);//Passes the list to the Razor view for display.
+            return View(enrollments);
         }
 
         // GET: /Enrollments/Create
-        public IActionResult Create()//Handles GET requests to /Enrollments/Create.
+        public IActionResult Create()
         {
-            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "LastName");//Populates a dropdown list of students (ID + LastName).
-            ViewData["CourseID"] = new SelectList(_context.Courses, "CourseID", "Title");//Populates a dropdown list of courses (CourseID + Title).
-            return View();//Returns the empty form view.
+            ViewData["Students"] = new SelectList(_context.Students, "ID", "LastName");
+            ViewData["Courses"] = new SelectList(_context.Courses, "CourseID", "Title");
+            return View();
         }
 
         // POST: /Enrollments/Create
-        [HttpPost] //Marks this method to handle POST requests.
-
-
-        [ValidateAntiForgeryToken] //Protects against CSRF attacks.
-
-
-        public IActionResult Create(Enrollment enrollment)//Accepts an Enrollment object bound from the form submission.
-
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Enrollment enrollment)
         {
-            if (ModelState.IsValid)//Checks if the submitted data passes validation rules.
-
-
+            if (ModelState.IsValid)
             {
-                _context.Add(enrollment);//Adds the new enrollment to the DbContext.
-
-
-                _context.SaveChanges();//Saves changes to the database.
-
-
-                return RedirectToAction(nameof(Index));//Redirects back to the list of enrollments.
-
-
+                _context.Add(enrollment);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
             }
-            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "LastName", enrollment.StudentID);//If validation fails, repopulates dropdowns with selected values.
 
+            ViewData["Students"] = new SelectList(_context.Students, "ID", "LastName", enrollment.StudentID);
+            ViewData["Courses"] = new SelectList(_context.Courses, "CourseID", "Title", enrollment.CourseID);
+            return View(enrollment);
+        }
 
-            ViewData["CourseID"] = new SelectList(_context.Courses, "CourseID", "Title", enrollment.CourseID);//If validation fails, repopulates dropdowns with selected values.
+        // GET: /Enrollments/Edit/5
+        public IActionResult Edit(int id)
+        {
+            var enrollment = _context.Enrollments
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .FirstOrDefault(e => e.EnrollmentID == id);
 
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
 
-            return View(enrollment);//Returns the form again with validation errors highlighted.
+            ViewData["Students"] = new SelectList(_context.Students, "ID", "LastName", enrollment.StudentID);
+            ViewData["Courses"] = new SelectList(_context.Courses, "CourseID", "Title", enrollment.CourseID);
+            return View(enrollment);
+        }
+
+        // POST: /Enrollments/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Enrollment enrollment)
+        {
+            if (id != enrollment.EnrollmentID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Update(enrollment);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewData["Students"] = new SelectList(_context.Students, "ID", "LastName", enrollment.StudentID);
+            ViewData["Courses"] = new SelectList(_context.Courses, "CourseID", "Title", enrollment.CourseID);
+            return View(enrollment);
+        }
+
+        // GET: /Enrollments/Delete/5
+        public IActionResult Delete(int id)
+        {
+            var enrollment = _context.Enrollments
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .FirstOrDefault(e => e.EnrollmentID == id);
+
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
+
+            return View(enrollment);
+        }
+
+        // POST: /Enrollments/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var enrollment = _context.Enrollments.Find(id);
+            if (enrollment != null)
+            {
+                _context.Enrollments.Remove(enrollment);
+                _context.SaveChanges();
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

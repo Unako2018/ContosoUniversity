@@ -1,54 +1,31 @@
-﻿@model IEnumerable<dynamic>
+﻿@model IEnumerable<ContosoUniversity.Models.Enrollment>
 
-@{
-    ViewData["Title"] = "Enrollments"; //This is a Razor code block.
-
-   // It sets the page title in ViewData to "Enrollments".
-
-   // Controllers or layouts can use this value to display the title in the browser tab or header.
-}
-
-<h2>Enrollments</h2>// heading 2 
+<h2>Enrollments</h2>
 
 <p>
-    @Html.ActionLink("Create New Enrollment", "Create")
+    <a asp-action="Create" class="btn btn-primary">Create New Enrollment</a>
 </p>
-//Creates a paragraph containing a link.
-
-//@Html.ActionLink generates an <a>
-tag.
-
-//"Create New Enrollment" link text.
-
-//"Create"  action method in the controller that will be called when clicked.
-
-//The result is a clickable link that navigates to the enrollment creation page.
 
 <table class="table table-striped">
-    //Opens a table with Bootstrap styling.
-    //table applies default Bootstrap table styles.
-    //table-striped  adds alternating row colors for readability.
-
-
-    <thead>// define tabe head 
-        <tr>//table row
+    <thead>
+        <tr>
             <th>Student</th>
             <th>Course</th>
             <th>Grade</th>
+            <th></th>
         </tr>
     </thead>
-
     <tbody>
-        @foreach (var item in Model)//Loops through each element in the Model (the collection of enrollment records).var item → represents one enrollment record at a time.
-
-
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@item.StudentName</td>// inserts the student’s name.
-                <td>@item.CourseTitle</td>// inserts the course title.
-                <td>@item.Grade</td>//inserts the grade.
-
-                //Because item is dynamic, these properties are resolved at runtime.Because item is marked as dynamic, the computer doesn’t know ahead of time what properties it has. Instead, it figures out things like StudentName, CourseTitle, and Grade while the program is running.
+                <td>@item.Student.LastName</td>
+                <td>@item.Course.Title</td>
+                <td>@item.Grade</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EnrollmentID" class="btn btn-sm btn-warning">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EnrollmentID" class="btn btn-sm btn-danger">Delete</a>
+                </td>
             </tr>
         }
     </tbody>

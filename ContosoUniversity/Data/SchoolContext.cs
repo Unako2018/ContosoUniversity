@@ -18,6 +18,8 @@ namespace ContosoUniversity.Data
             modelBuilder.Entity<Course>().ToTable("Course");
             modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
             modelBuilder.Entity<Student>().ToTable("Student");
+            // No DbSet<Grade> and no modelBuilder.Entity<Grade>()
+            // because Grade is an enum, not a class
         }
     }
 }

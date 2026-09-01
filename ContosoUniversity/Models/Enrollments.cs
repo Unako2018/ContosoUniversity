@@ -1,24 +1,19 @@
 ﻿namespace ContosoUniversity.Models
 {
-    public enum Grade//represent a possibe grade a student can earn  , using enum makes the code to be readable and prevents invaid grades like Z
+    public enum Grade
     {
-        A, B, C, D, F//values 
+        A, B, C, D, F
     }
 
-    public class Enrollment//defined a class called Enrollment 
+    public class Enrollment
     {
-        public int EnrollmentID { get; set; }   // Primary key in the database , EnrollmentID identifies each enrollment record.
-        public int CourseID { get; set; }       // Foreign key,Course ID links to Course Table 
-        public int StudentID { get; set; }      // Foreign key,Student ID links to Student table
+        public int EnrollmentID { get; set; }
+        public int CourseID { get; set; }
+        public int StudentID { get; set; }
 
-        public Grade? Grade { get; set; }       // Nullable Property , in this case ours is Grade? wich means property can hold a grade value or be null.Nullable because a student might not yet have a grade assigned.
+        public Grade? Grade { get; set; }   // enum property
 
-        // Navigation properties
-        public Course Course { get; set; } // Navigation property 
-        public Student Student { get; set; }// Navigation property 
-
-        //both of these are navigation Properties , Course and Student 
-        //They let you move from an Enrollment object to its related Course and Student.
-        //enrollment.Course.Title or enrollment.Student.LastName.
+        public Course Course { get; set; }
+        public Student Student { get; set; }
     }
 }
