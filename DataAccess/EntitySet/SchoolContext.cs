@@ -1,7 +1,6 @@
-﻿using ContosoUniversity.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace ContosoUniversity.Data
+namespace DataAccess.EntitySet
 {
     public class SchoolContext : DbContext
     {
@@ -15,7 +14,7 @@ namespace ContosoUniversity.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Course>().ToTable("Course");
+            modelBuilder.Entity<Course>().ToTable("Courses");
             modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
             modelBuilder.Entity<Student>().ToTable("Student");
             // No DbSet<Grade> and no modelBuilder.Entity<Grade>()

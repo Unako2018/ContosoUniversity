@@ -1,8 +1,7 @@
 
+using DataAccess.EntitySet;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ContosoUniversity.Models;
-using ContosoUniversity.Data;
 
 public class StudentsController : Controller
 {

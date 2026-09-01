@@ -1,8 +1,7 @@
-﻿using ContosoUniversity.Data;
-using ContosoUniversity.Models;
+﻿using DataAccess.EntitySet;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 namespace ContosoUniversity.Controllers
 {
     public class EnrollmentsController : Controller

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace ContosoUniversity.Models
+namespace DataAccess.EntitySet
 {
     public class Student
     {
