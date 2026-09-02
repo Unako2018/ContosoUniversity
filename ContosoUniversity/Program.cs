@@ -1,11 +1,8 @@
-using ContosoUniversity.Data;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using BusinessService.Implementation;
+using BusinessService.Interface;
+using DataAccess.DatabaseMigrations;
+using DataAccess.EntitySet;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
-using System;
 
 namespace ContosoUniversity
 {
@@ -21,6 +18,9 @@ namespace ContosoUniversity
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             builder.Services.AddControllersWithViews();
             builder.Services.AddMvc();
+
+            //dependency injection for StudentService
+            builder.Services.AddScoped<IStudentService, StudentService>();
 
             var app = builder.Build();
 

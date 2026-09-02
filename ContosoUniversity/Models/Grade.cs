@@ -1,7 +1,7 @@
 ﻿namespace ContosoUniversity.Models
 {
     // Enum representing possible grades
-    public enum Grades
+    public enum Grade
     {
         A,  // Excellent
         B,  // Good

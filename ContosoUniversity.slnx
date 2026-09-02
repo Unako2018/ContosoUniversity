@@ -1,3 +1,12 @@
 <Solution>
-  <Project Path="ContosoUniversity/ContosoUniversity.csproj" />
+  <Folder Name="/BusinessLogic/">
+    <Project Path="BusinessObject/BusinessObject.csproj" Id="27ec4565-5eae-4f8d-9994-491af24f9693" />
+    <Project Path="BusinessService/BusinessService.csproj" Id="fb0e97a8-f3e0-47bd-8f51-ceaa62b63e2f" />
+  </Folder>
+  <Folder Name="/DataAccess/">
+    <Project Path="DataAccess/DataAccess.csproj" Id="213ed578-9dfc-46cc-a8a0-3562fc6f20bf" />
+  </Folder>
+  <Folder Name="/Presentation/">
+    <Project Path="ContosoUniversity/ContosoUniversity.csproj" />
+  </Folder>
 </Solution>

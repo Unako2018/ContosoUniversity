@@ -1,22 +1,26 @@
 
+using BusinessService.Implementation;
+using BusinessService.Interface;
+using DataAccess.EntitySet;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ContosoUniversity.Models;
-using ContosoUniversity.Data;
 
 public class StudentsController : Controller
 {
     private readonly SchoolContext _context;
-
-    public StudentsController(SchoolContext context)
+    private readonly IStudentService _studentService;
+    public StudentsController(SchoolContext context, IStudentService studentService)
     {
         _context = context;
+        _studentService = studentService;
     }
 
     // GET: STUDENTS
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Students.ToListAsync());
+        var model = await _studentService.GetStudents();
+
+        return View(model);
     }
 
     // GET: STUDENTS/Details/5
@@ -27,8 +31,8 @@ public class StudentsController : Controller
             return NotFound();
         }
 
-        var student = await _context.Students
-            .FirstOrDefaultAsync(m => m.ID == id);
+        var student = await _studentService.GetStudentById(id.Value);
+
         if (student == null)
         {
             return NotFound();
