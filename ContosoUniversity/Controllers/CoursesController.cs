@@ -1,7 +1,6 @@
 ﻿using ContosoUniversity.Data;
 using ContosoUniversity.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client.NativeInterop;
 
 namespace ContosoUniversity.Controllers
 {

@@ -45,7 +45,7 @@ namespace ContosoUniversity.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // repopulate dropdowns if validation fails
+            // Repopulate dropdowns if validation fails
             ViewData["Students"] = _context.Students.ToList();
             ViewData["Courses"] = _context.Courses.ToList();
             return View(enrollment);
@@ -69,7 +69,7 @@ namespace ContosoUniversity.Controllers
             return View(enrollment);
         }
 
-        // POST: /Grades/Edit/5
+        // POST: /Grades/Edit/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Enrollment enrollment)
@@ -86,6 +86,7 @@ namespace ContosoUniversity.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            // Repopulate dropdowns if validation fails
             ViewData["Students"] = _context.Students.ToList();
             ViewData["Courses"] = _context.Courses.ToList();
             return View(enrollment);

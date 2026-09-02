@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<ContosoUniversity.Models.Enrollment>
 
-<h2>Enrollments</h2>
+@{
+    ViewData["Title"] = "Enrollments";
+}
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New Enrollment</a>
-</p>
+<h2>Enrollments</h2>
+<hr />
 
 <table class="table table-striped">
     <thead>
@@ -23,10 +24,13 @@
                 <td>@item.Course.Title</td>
                 <td>@item.Grade</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.EnrollmentID" class="btn btn-sm btn-warning">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.EnrollmentID" class="btn btn-sm btn-danger">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.EnrollmentID" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.EnrollmentID" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.EnrollmentID" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<a asp-action="Create" class="btn btn-primary">Create New Enrollment</a>
