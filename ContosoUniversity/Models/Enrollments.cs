@@ -15,6 +15,5 @@
 
         public Course Course { get; set; }
         public Student Student { get; set; }
-        public int GradeID { get; internal set; }
     }
 }

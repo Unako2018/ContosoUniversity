@@ -1,35 +1,43 @@
 ﻿@model ContosoUniversity.Models.Enrollment
 
 @{
-    ViewData["Title"] = "Create Enrollment";
+    ViewData["Title"] = "Create Enrollment";//Sets the page title using the ViewData dictionary. and This value can be displayed in the layout (e.g., in the <title> tag of _Layout.cshtml).
 }
 
-<h2>Create Enrollment</h2>
+<h2>Create Enrollment</h2>//Simple HTML heading.
+
+//this is a student drop down 
 
 <form asp-action="Create" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    //Starts a form that will POST data back to the server. and asp-action="Create" means the form will submit to the Create action method in the EnrollmentsController.
     <div class="form-group">
-        <label asp-for="StudentID" class="control-label"></label>
-        <select asp-for="StudentID" class="form-control" asp-items="ViewBag.StudentID"></select>
+        <label asp-for="StudentID" class="control-label"></label> //asp-for="StudentID" binds the label and select element to the StudentID property of the model.
+        <select asp-for="StudentID" class="form-control" asp-items="ViewBag.StudentID"></select>//asp-items="ViewBag.StudentID" populates the dropdown list with items passed from the controller (usually a SelectList of students)and class="form-control" applies Bootstrap styling.
     </div>
+
+    // this is a course dropdown 
+    //Same logic as the student dropdown, but for courses.
+    //The controller passes ViewBag.CourseID containing available courses.
+
 
     <div class="form-group">
         <label asp-for="CourseID" class="control-label"></label>
         <select asp-for="CourseID" class="form-control" asp-items="ViewBag.CourseID"></select>
     </div>
+    //this is the Grade Input 
 
     <div class="form-group">
-        <label asp-for="Grade" class="control-label"></label>
+        <label asp-for="Grade" class="control-label"></label> 
+       @*  asp-for="Grade" binds the label and input field to the Grade property of the model.Generates an
+        <input> element where the user can type a grade (e.g., A, B, C, or numeric depending on your model setup). *@
         <input asp-for="Grade" class="form-control" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-</form>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+    <button type="submit" class="btn btn-primary">Save</button>
+  @*   Standard HTML button , When clicked, it submits the form to the Create action and btn btn-primary applies Bootstrap styling (blue button). *@
+
+
+</form>

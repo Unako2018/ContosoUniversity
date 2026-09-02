@@ -3,7 +3,6 @@ using ContosoUniversity.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace ContosoUniversity.Controllers
 {
     public class EnrollmentsController : Controller
@@ -69,7 +68,7 @@ namespace ContosoUniversity.Controllers
             return View(enrollment);
         }
 
-        // POST: /Enrollments/Edit/
+        // POST: /Enrollments/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Enrollment enrollment)
@@ -91,7 +90,7 @@ namespace ContosoUniversity.Controllers
             return View(enrollment);
         }
 
-        // GET: /Enrollments/Delete/
+        // GET: /Enrollments/Delete/5
         public IActionResult Delete(int id)
         {
             var enrollment = _context.Enrollments
@@ -107,7 +106,7 @@ namespace ContosoUniversity.Controllers
             return View(enrollment);
         }
 
-        // POST: /Enrollments/Delete/
+        // POST: /Enrollments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)

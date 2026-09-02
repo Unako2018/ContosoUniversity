@@ -1,34 +1,30 @@
-﻿@model IEnumerable<ContosoUniversity.Models.Grades>
-
-@{
-    ViewData["Title"] = "Grades";
-}
+﻿@model IEnumerable<ContosoUniversity.Models.Enrollment>
 
 <h2>Grades</h2>
-<hr />
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Letter</th>
-            <th>Description</th>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Grade</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var enrollment in Model)
         {
             <tr>
-                <td>@item.Name</td>
-                <td>@item.Description</td>
+                <td>@enrollment.Student.FirstMidName @enrollment.Student.LastName</td>
+                <td>@enrollment.Course.Title</td>
+                <td>@enrollment.Grade</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.GradeID" class="btn btn-info btn-sm">Details</a>
-                    <a asp-action="Edit" asp-route-id="@item.GradeID" class="btn btn-warning btn-sm">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.GradeID" class="btn btn-danger btn-sm">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@enrollment.EnrollmentID" class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@enrollment.EnrollmentID" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a asp-action="Create" class="btn btn-primary">Create New Grade</a>
+<a asp-action="Create" class="btn btn-success">Add Enrollment with Grade</a>
