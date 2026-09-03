@@ -6,21 +6,21 @@
     <div class="form-group">
         <label asp-for="StudentID">Student</label>
         <select asp-for="StudentID" class="form-control"
-                asp-items="@(new SelectList(ViewData["Students"] as IEnumerable<BusinessObject.StudentViewModel>, "ID", "LastName"))">
+                asp-items="@(new SelectList(ViewData["Students"] as IEnumerable<StudentViewModel>, "ID", "LastName"))">
         </select>
     </div>
 
     <div class="form-group">
         <label asp-for="CourseID">Course</label>
         <select asp-for="CourseID" class="form-control"
-                asp-items="@(new SelectList(ViewData["Courses"] as IEnumerable<BusinessObject.CourseViewModel>, "CourseID", "Title"))">
+                asp-items="@(new SelectList(ViewData["Courses"] as IEnumerable<CourseViewModel>, "CourseID", "Title"))">
         </select>
     </div>
 
     <div class="form-group">
         <label asp-for="Grade">Grade</label>
         <select asp-for="Grade" class="form-control"
-                asp-items="Html.GetEnumSelectList<ContosoUniversity.Models.Grade>()">
+                asp-items="@(new SelectList(ViewData["Grades"] as IEnumerable<GradeViewModel>, "GradeID", "Title"))">
         </select>
     </div>
 

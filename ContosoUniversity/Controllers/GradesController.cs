@@ -1,4 +1,6 @@
 ﻿
+using BusinessLogic.Interface;
+using BusinessObject;
 using ContosoUniversity.Models;
 using DataAccess.EntitySet;
 using Microsoft.AspNetCore.Mvc;
@@ -8,88 +10,37 @@ namespace ContosoUniversity.Controllers
 {
     public class GradesController : Controller
     {
-        private readonly SchoolContext _context;
+        private readonly IGradeService _gradeService;
 
-        public GradesController(SchoolContext context)
+        public GradesController(IGradeService gradeService)
         {
-            _context = context;
+            _gradeService = gradeService;
         }
 
         // GET: /Grades
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var enrollments = _context.Enrollments
-                .Include(e => e.Student)
-                .Include(e => e.Course)
-                .ToList();
-
-            return View(enrollments);
+            var model = await _gradeService.GetGrades();
+            return View(model);
         }
-
-        // GET: /Grades/Create
         public IActionResult Create()
         {
-            ViewData["Students"] = _context.Students.ToList();
-            ViewData["Courses"] = _context.Courses.ToList();
             return View();
         }
 
-        // POST: /Grades/Create
+        // POST: /Grade/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Enrollment enrollment)
+        public async Task<IActionResult> Create(GradeViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(enrollment);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+              model = await _gradeService.CreateGrade(model);
+              
+               return RedirectToAction(nameof(Index));
             }
-
-            // repopulate dropdowns if validation fails
-            ViewData["Students"] = _context.Students.ToList();
-            ViewData["Courses"] = _context.Courses.ToList();
-            return View(enrollment);
-        }
-
-        // GET: /Grades/Edit/5
-        public IActionResult Edit(int id)
-        {
-            var enrollment = _context.Enrollments
-                .Include(e => e.Student)
-                .Include(e => e.Course)
-                .FirstOrDefault(e => e.EnrollmentID == id);
-
-            if (enrollment == null)
-            {
-                return NotFound();
-            }
-
-            ViewData["Students"] = _context.Students.ToList();
-            ViewData["Courses"] = _context.Courses.ToList();
-            return View(enrollment);
-        }
-
-        // POST: /Grades/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Enrollment enrollment)
-        {
-            if (id != enrollment.EnrollmentID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                _context.Update(enrollment);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewData["Students"] = _context.Students.ToList();
-            ViewData["Courses"] = _context.Courses.ToList();
-            return View(enrollment);
+            return View(model);
         }
     }
 }
+

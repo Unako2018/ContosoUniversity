@@ -1,3 +1,5 @@
+using BusinessLogic.Implementation;
+using BusinessLogic.Interface;
 using BusinessService.Implementation;
 using BusinessService.Interface;
 using DataAccess.DatabaseMigrations;
@@ -21,6 +23,7 @@ namespace ContosoUniversity
 
             //dependency injection for StudentService
             builder.Services.AddScoped<IStudentService, StudentService>();
+            builder.Services.AddScoped<IGradeService, GradeService>();
 
             var app = builder.Build();
 

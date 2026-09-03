@@ -10,10 +10,10 @@ namespace BusinessObject
         public int CourseID { get; set; }
         public int StudentID { get; set; }
         
-        //To replace with class object
         public string Grade { get; set; }
 
         public CourseViewModel Course { get; set; }
         public StudentViewModel Student { get; set; }
+
     }
 }

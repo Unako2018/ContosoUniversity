@@ -1,30 +1,27 @@
-﻿@model IEnumerable<BusinessObject.EnrollmentViewModel>
+﻿@model IEnumerable<BusinessObject.GradeViewModel>
 
 <h2>Grades</h2>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Student</th>
-            <th>Course</th>
             <th>Grade</th>
-            <th></th>
+            <th>Description </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var enrollment in Model)
+        @foreach (var grade in Model)
         {
             <tr>
-                <td>@enrollment.Student.FirstMidName @enrollment.Student.LastName</td>
-                <td>@enrollment.Course.Title</td>
-                <td>@enrollment.Grade</td>
+                <td>@grade.Name</td>
+                <td>@grade.Description</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@enrollment.EnrollmentID" class="btn btn-sm btn-primary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@enrollment.EnrollmentID" class="btn btn-sm btn-danger">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@grade.GradeID" class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@grade.GradeID" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a asp-action="Create" class="btn btn-success">Add Enrollment with Grade</a>
+<a asp-action="Create" class="btn btn-success">Add Grade</a>
