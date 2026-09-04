@@ -33,6 +33,48 @@ namespace ContosoUniversity.Controllers
         {
             var model = await _gradeService.GetGradeById(Id);
             return View(model);
+
+        }
+
+
+        // GET: GRADES/Delete/
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var model = await _gradeService.GetGradeById(id??0);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+
+
+
+
+        // POST: STUDENTS/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var model = await _gradeService.DeleteGrade(id??0);
+            if (model == false)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+
         }
 
         // POST: Grades/Create

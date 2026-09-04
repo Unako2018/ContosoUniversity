@@ -36,7 +36,15 @@ namespace BusinessLogic.Interface
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<GradeViewModel?> UpdateGrade(GradeViewModel model); 
+        Task<GradeViewModel?> UpdateGrade(GradeViewModel model);
+
+
+        /// <summary>
+        /// this is the method to delete/cancel 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<bool> DeleteGrade(int id);
 
     }
 }
