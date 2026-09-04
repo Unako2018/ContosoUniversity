@@ -25,6 +25,7 @@ namespace ContosoUniversity
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<IGradeService, GradeService>();
 
+
             var app = builder.Build();
 
             // Configure equivalent
