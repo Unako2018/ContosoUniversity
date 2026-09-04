@@ -1,5 +1,5 @@
-using BusinessLogic.Implementation;
 using BusinessLogic.Interface;
+using BusinessObject;
 using BusinessService.Implementation;
 using BusinessService.Interface;
 using DataAccess.DatabaseMigrations;
@@ -24,8 +24,6 @@ namespace ContosoUniversity
             //dependency injection for StudentService
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<IGradeService, GradeService>();
-
-
             var app = builder.Build();
 
             // Configure equivalent
@@ -44,7 +42,7 @@ namespace ContosoUniversity
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
-            
+
 
             app.MapControllerRoute(
                 name: "default",
@@ -73,5 +71,6 @@ namespace ContosoUniversity
                 }
             }
         }
+
     }
 }
