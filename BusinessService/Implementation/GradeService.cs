@@ -3,7 +3,6 @@ using BusinessObject;
 using BusinessService.Interface;
 using DataAccess.EntitySet;
 using Microsoft.EntityFrameworkCore;
-
 namespace BusinessService.Implementation
 {
     public class GradeService : IGradeService

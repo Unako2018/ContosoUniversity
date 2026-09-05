@@ -9,9 +9,9 @@ namespace ContosoUniversity.Controllers
 {
     public class GradesController : Controller
     {
-        private readonly IGradeService _gradeService;
+        private readonly BusinessLogic.Interface.IEnrollmentService _gradeService;
 
-        public GradesController(IGradeService gradeService)
+        public GradesController(BusinessLogic.Interface.IEnrollmentService gradeService)
         {
             _gradeService = gradeService;
         }
