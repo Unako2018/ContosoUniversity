@@ -16,13 +16,17 @@ namespace BusinessService.Implementation
         // Get all Enrollments
         public async Task<IEnumerable<EnrollmentViewModel>> GetEnrollments()
         {
-            var enrollments = await _context.Enrollments.ToListAsync();
+            var enrollments = await _context.Enrollments.Include(e => e.Grade)
+                                                        .Include(e => e.Course)
+                                                        .Include(e => e.Student)
+                .ToListAsync();
             var model = enrollments.Select(e => new EnrollmentViewModel()
             {
                 EnrollmentID = e.EnrollmentID,
-                CourseID = e.CourseID,
-                StudentID = e.StudentID,
-                Grade = e.Grade,
+                CourseName = e.Course.Title,
+                StudentName = e.Student.FirstMidName,
+                GradeName = e.Grade.Name
+
             });
             return model;
         }
@@ -43,7 +47,7 @@ namespace BusinessService.Implementation
                 EnrollmentID = enrollment.EnrollmentID,
                 CourseID = enrollment.CourseID,
                 StudentID = enrollment.StudentID,
-                Grade = enrollment.Grade,
+                GradeID = enrollment.GradeID,
 
             };
 
@@ -55,16 +59,12 @@ namespace BusinessService.Implementation
         {
             var enrollment = new Enrollment()
             {
-                Grade = model.Grade,
-
+                GradeID = model.GradeID,
+                StudentID = model.StudentID,
+                CourseID = model.CourseID,
             };
-
             _context.Enrollments.Add(enrollment);
             await _context.SaveChangesAsync();
-
-            model.EnrollmentID = enrollment.EnrollmentID;
-            model.CourseID = enrollment.CourseID;
-            model.StudentID = enrollment.StudentID;
             // update with generated ID
             return model;
         }
@@ -78,7 +78,7 @@ namespace BusinessService.Implementation
                 return null;
             }
 
-            enrollment.Grade = model.Grade;
+            enrollment.GradeID = model.GradeID;
 
 
             _context.Enrollments.Update(enrollment);

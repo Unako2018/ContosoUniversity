@@ -6,10 +6,10 @@
         public int CourseID { get; set; }
         public int StudentID { get; set; }
 
-       // public Grade? Grade { get; set; }   // enum property
+       public int  GradeID { get; set; }
 
         public Course Course { get; set; }
         public Student Student { get; set; }
-        public string Grade { get; set; }
+        public Grade Grade { get; set; }
     }
 }

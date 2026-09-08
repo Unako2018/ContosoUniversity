@@ -4,27 +4,21 @@
 
 <form asp-action="Create" method="post">
     <div class="form-group">
-        <label asp-for="EnrollmentID"></label>
-        <select asp-for="EnrollmentID" class="form-control" asp-items="ViewBag.EnrollmentID"></select>
-        <span asp-validation-for="EnrollmentID" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
         <label asp-for="StudentID"></label>
-        <select asp-for="StudentID" class="form-control" asp-items="ViewBag.StudentID"></select>
+        <select asp-for="StudentID" class="form-control" asp-items="@ViewBag.Students"></select>
         <span asp-validation-for="StudentID" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="CourseID"></label>
-        <select asp-for="CourseID" class="form-control" asp-items="ViewBag.CourseID"></select>
+        <select asp-for="CourseID" class="form-control" asp-items="@ViewBag.Courses"></select>
         <span asp-validation-for="CourseID" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Grade"></label>
-        <input asp-for="Grade" class="form-control" />
-        <span asp-validation-for="Grade" class="text-danger"></span>
+        <label asp-for="GradeID"></label>
+        <select asp-for="GradeID" class="form-control" asp-items="@ViewBag.Grades"></select>
+        <span asp-validation-for="GradeID" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Create</button>

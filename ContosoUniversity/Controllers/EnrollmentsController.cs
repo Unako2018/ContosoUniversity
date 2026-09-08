@@ -1,19 +1,26 @@
-﻿using BusinessService.Implementation;
-using BusinessLogic.Interface;
+﻿using BusinessLogic.Interface;
 using BusinessObject;
+using BusinessService.Implementation;
+using BusinessService.Interface;
 using ContosoUniversity.Models;
 using DataAccess.EntitySet;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 namespace ContosoUniversity.Controllers
 {
     public class EnrollmentsController : Controller
     {
         private readonly IEnrollmentService _enrollmentService;
-
-        public EnrollmentsController(IEnrollmentService enrollmentService)
+        private readonly IStudentService _studentService;
+        private readonly ICourseService _courseService;
+        private readonly IGradeService _gradeService;
+        public EnrollmentsController(IEnrollmentService enrollmentService, IStudentService studentService , ICourseService courseService , IGradeService gradeService)
         {
             _enrollmentService = enrollmentService;
+            _studentService = studentService;
+            _courseService = courseService;
+            _gradeService= gradeService;
         }
 
         // GET: /Enrollments// for index
@@ -24,13 +31,17 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: /Enrollments/Create// this is for the create button for enrollments 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var students =  await _studentService.GetStudents();
+            var courses = await _courseService.GetCourses();
+            var grades = await _gradeService.GetGrades();
+
+            ViewBag.Students = new SelectList(students, "ID", "LastName");
+            ViewBag.Courses = new SelectList(courses, "CourseID", "Title");
+            ViewBag.Grades = new SelectList(grades, "GradeID","Name");
             return View();
         }
-
-
-
         // GET: Enrollments/Create//this is for the edit
         public async Task<IActionResult> Edit(int Id)
         {

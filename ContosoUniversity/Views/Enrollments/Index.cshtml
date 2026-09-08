@@ -10,8 +10,8 @@
     <thead>
         <tr>
        
-            <th>CourseID </th>
-            <th>StudentID </th>
+            <th>Course </th>
+            <th>Student </th>
             <th>Grade </th>
 
 
@@ -23,9 +23,9 @@
         {
             <tr>
             
-                <td>@item.CourseID</td>
-                <td>@item.StudentID</td>
-                <td>@item.Grade</td>
+                <td>@item.CourseName</td>
+                <td>@item.StudentName</td>
+                <td>@item.GradeName</td>
 
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.EnrollmentID" class="btn btn-sm btn-warning">Edit</a> |
