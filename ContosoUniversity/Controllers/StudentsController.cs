@@ -7,16 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 public class StudentsController : Controller
 {
-    private readonly StudentService _studentservice;
+    private readonly SchoolContext _context;
     private readonly IStudentService _studentService;
-    public StudentsController(StudentService context, IStudentService studentService)
+    public StudentsController(SchoolContext context, IStudentService studentService)
     {
         _context = context;
         _studentService = studentService;
     }
 
     // GET: STUDENTS
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index()
     {
         var model = await _studentService.GetStudents();
 

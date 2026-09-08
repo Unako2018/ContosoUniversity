@@ -7,9 +7,9 @@ namespace BusinessService.Implementation
 {
     public class StudentService : IStudentService
     {
-        private readonly EnrollmentService _context;
+        private readonly SchoolContext _context;
 
-        public StudentService(EnrollmentService context)
+        public StudentService(SchoolContext context)
         {
             _context = context;
         }

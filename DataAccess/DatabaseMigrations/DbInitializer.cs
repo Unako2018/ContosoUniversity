@@ -7,7 +7,7 @@ namespace DataAccess.DatabaseMigrations
 {
     public static class DbInitializer
     {
-        public static void Initialize(EnrollmentService context)
+        public static void Initialize(SchoolContext context)
         {
             context.Database.EnsureCreated();
 

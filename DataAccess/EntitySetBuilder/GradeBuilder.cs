@@ -16,11 +16,11 @@ namespace DataAccess.EntitySetBuilder
             entityBuilder.Property(c => c.Name).HasMaxLength(50);
             entityBuilder.Property(c => c.Description).HasMaxLength(100);
 
-            entityBuilder
-            .HasOne(e => e.GradeSubType)
-            .WithMany(e => e.Gradees)
-            .HasForeignKey(e => e.GradeSubTypeId)
-            .OnDelete(DeleteBehavior.Cascade);
+            //entityBuilder
+            //.HasOne(e => e.GradeSubType)
+            //.WithMany(e => e.Gradees)
+            //.HasForeignKey(e => e.GradeSubTypeId)
+            //.OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

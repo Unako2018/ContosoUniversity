@@ -7,9 +7,9 @@ namespace BusinessService.Implementation
 {
     public class CourseService : ICourseService
     {
-        private readonly CourseService _courseservice;
+        private readonly SchoolContext _courseservice;
 
-        public CourseService(CourseService courseservice)
+        public CourseService(SchoolContext courseservice)
         {
             _courseservice = courseservice;
         }
@@ -17,7 +17,7 @@ namespace BusinessService.Implementation
         public async Task<IEnumerable<CourseViewModel>> GetCourses()
         {
             var courses = await _courseservice.Courses.ToListAsync();
-            var model = courses.Select(c => new CoursesViewModel()
+            var model = courses.Select(c => new CourseViewModel()
             {
                 CourseID = c.CourseID,
                 Title = c.Title,
@@ -94,15 +94,5 @@ namespace BusinessService.Implementation
             await _courseservice.SaveChangesAsync();
             return true;
         }
-    }
-
-    public class CourseViewModel
-    {
-        public object CourseID { get; internal set; }
-        public object Title { get; internal set; }
-        public object Credits { get; internal set; }
-    }
-    public interface ICourseService
-    {
     }
 }

@@ -5,11 +5,11 @@ using DataAccess.EntitySet;
 using Microsoft.EntityFrameworkCore;
 namespace BusinessService.Implementation
 {
-    public class EnrollmntService : IEnrollmentsService
+    public class EnrollmentService : IEnrollmentService
     {
-        private readonly EnrollmentService _context;
+        private readonly SchoolContext _context;
 
-        public EnrollmntService(EnrollmentService context)
+        public EnrollmentService(SchoolContext context)
         {
             _context = context;
         }

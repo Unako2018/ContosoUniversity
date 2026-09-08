@@ -4,7 +4,7 @@ using System.Text;
 using BusinessObject;
 namespace BusinessLogic.Interface
 {
-    public interface IEnrollmentsService
+    public interface IEnrollmentService
     {
         Task<IEnumerable<EnrollmentViewModel>> GetEnrollments();
         Task<EnrollmentViewModel?> GetEnrollmentById(int id);
