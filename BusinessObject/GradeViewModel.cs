@@ -12,5 +12,6 @@ namespace BusinessObject
       
         // Navigation property
         public ICollection<EnrollmentViewModel>? Enrollments { get; set; }
+        public int? EnrollmentID { get; set; }
     }
 }

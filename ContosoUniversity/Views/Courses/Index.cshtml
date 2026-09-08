@@ -1,49 +1,27 @@
 ﻿@model IEnumerable<BusinessObject.CourseViewModel>
 
-@{
-    ViewData["Title"] = "Courses";
-}
-
 <h2>Courses</h2>
-
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New Course</a>
-</p>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CourseID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Credits)
-            </th>
-            <th></th>
+            <th>Title</th>
+            <th>Credits </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var grade in Model)
         {
             <tr>
+                <td>@grade.Title</td>
+                <td>@grade.Credits</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CourseID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Credits)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.CourseID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CourseID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CourseID">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@grade.CourseID" class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@grade.CourseID" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<a asp-action="Create" class="btn btn-success">Add Course</a>

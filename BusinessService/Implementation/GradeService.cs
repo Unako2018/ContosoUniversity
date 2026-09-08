@@ -7,17 +7,17 @@ namespace BusinessService.Implementation
 {
     public class GradeService : IGradeService
     {
-        private readonly SchoolContext _context;
+        private readonly GradeService _gradeservice;
 
-        public GradeService(SchoolContext context)
+        public GradeService(GradeService gradeservice)
         {
-            _context = context;
+            _gradeservice = gradeservice;
         }
 
         // Get all grades
         public async Task<IEnumerable<GradeViewModel>> GetGrades()
         {
-            var grades = await _context.Grades.ToListAsync();
+            var grades = await _gradeservice.Grades.ToListAsync();
 
             var model = grades.Select(g => new GradeViewModel()
             {
@@ -32,7 +32,7 @@ namespace BusinessService.Implementation
         // Get grade by ID
         public async Task<GradeViewModel?> GetGradeById(int id)
         {
-            var grade = await _context.Grades
+            var grade = await _gradeservice.Grades
                 .FirstOrDefaultAsync(m => m.GradeID == id);
 
             if (grade == null)
@@ -59,8 +59,8 @@ namespace BusinessService.Implementation
                 Description = model.Description
             };
 
-            _context.Grades.Add(grade);
-            await _context.SaveChangesAsync();
+            _gradeservice.Grades.Add(grade);
+            await _gradeservice.SaveChangesAsync();
 
             model.GradeID = grade.GradeID; // update with generated ID
             return model;
@@ -69,7 +69,7 @@ namespace BusinessService.Implementation
         // Update an existing grade
         public async Task<GradeViewModel?> UpdateGrade(GradeViewModel model)
         {
-            var grade = await _context.Grades.FindAsync(model.GradeID);
+            var grade = await _gradeservice.Grades.FindAsync(model.GradeID);
             if (grade == null)
             {
                 return null;
@@ -78,8 +78,8 @@ namespace BusinessService.Implementation
             grade.Name = model.Name;
             grade.Description = model.Description;
 
-            _context.Grades.Update(grade);
-            await _context.SaveChangesAsync();
+            _gradeservice.Grades.Update(grade);
+            await _gradeservice.SaveChangesAsync();
 
             return model;
         }
@@ -87,14 +87,14 @@ namespace BusinessService.Implementation
         // Delete a grade
         public async Task<bool> DeleteGrade(int id)
         {
-            var grade = await _context.Grades.FindAsync(id);
+            var grade = await _gradeservice.Grades.FindAsync(id);
             if (grade == null)
             {
                 return false;
             }
 
-            _context.Grades.Remove(grade);
-            await _context.SaveChangesAsync();
+            _gradeservice.Grades.Remove(grade);
+            await _gradeservice.SaveChangesAsync();
             return true;
         }
     }

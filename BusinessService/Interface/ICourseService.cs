@@ -2,49 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 using BusinessObject;
-
 namespace BusinessLogic.Interface
 {
-    /// <summary>
-    /// /this is the interfeace for Grades 
-    /// </summary>
-    public interface IEnrollmentService
+
+    public interface ICourseService
     {
+        Task<IEnumerable<CourseViewModel>> GetCourses();
+        Task<CourseViewModel?> GetCourseById(int id);
+        Task<CourseViewModel> CreateCourse(CourseViewModel model);
+        Task<CourseViewModel?> UpdateCourse(CourseViewModel model);
+        Task<bool> DeleteCourse(int id);
 
-        /// <summary>
-        /// /this is the methiod for all the grades (for main create button ) 
-        /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<GradeViewModel>> GetGrades();
-
-        /// <summary>
-        /// this is for the method create grade 
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        Task<GradeViewModel> CreateGrade(GradeViewModel model);
-
-        /// <summary>
-        /// /this is the for get grade method 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<GradeViewModel?> GetGradeById(int id);
-
-        /// <summary>
-        /// //this is  for update grade for id
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        Task<GradeViewModel?> UpdateGrade(GradeViewModel model);
-
-
-        /// <summary>
-        /// this is the method to delete/cancel 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<bool> DeleteGrade(int id);
 
     }
 }
+
+

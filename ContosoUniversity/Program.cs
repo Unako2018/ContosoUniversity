@@ -15,7 +15,7 @@ namespace ContosoUniversity
             var builder = WebApplication.CreateBuilder(args);
 
             // ConfigureServices equivalent
-            builder.Services.AddDbContext<SchoolContext>(options =>
+            builder.Services.AddDbContext<EnrollmentService>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ContosoUniversity1")));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             builder.Services.AddControllersWithViews();
@@ -24,7 +24,8 @@ namespace ContosoUniversity
             //dependency injection for StudentService
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<IGradeService, GradeService>();
-            builder.Services.AddScoped<IEnrollmentService, EnrollmntService>();
+            builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
+            builder.Services.AddScoped<ICourseService, CourseService>();
             var app = builder.Build();
 
             // Configure equivalent
@@ -62,7 +63,7 @@ namespace ContosoUniversity
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<SchoolContext>();
+                    var context = services.GetRequiredService<EnrollmentService>();
                     DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)

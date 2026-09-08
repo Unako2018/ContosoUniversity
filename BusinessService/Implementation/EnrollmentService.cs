@@ -5,11 +5,11 @@ using DataAccess.EntitySet;
 using Microsoft.EntityFrameworkCore;
 namespace BusinessService.Implementation
 {
-    public class EnrollmntService : IEnrollmentService
+    public class EnrollmntService : IEnrollmentsService
     {
-        private readonly SchoolContext _context;
+        private readonly EnrollmentService _context;
 
-        public EnrollmntService(SchoolContext context)
+        public EnrollmntService(EnrollmentService context)
         {
             _context = context;
         }
@@ -17,7 +17,7 @@ namespace BusinessService.Implementation
         public async Task<IEnumerable<EnrollmentViewModel>> GetEnrollments()
         {
             var enrollments = await _context.Enrollments.ToListAsync();
-            var model = enrollments.Select(e => new EnrollmentsViewModel()
+            var model = enrollments.Select(e => new EnrollmentViewModel()
             {
                 EnrollmentID = e.EnrollmentID,
                 CourseID = e.CourseID,
@@ -28,7 +28,7 @@ namespace BusinessService.Implementation
         }
 
         // Get enrollment by ID
-        public async Task<EnrollmentsViewModel?> GetEnrollmentById(int id)
+        public async Task<EnrollmentViewModel?> GetEnrollmentById(int id)
         {
             var enrollment = await _context.Enrollments
                 .FirstOrDefaultAsync(m => m.EnrollmentID == id);
@@ -38,7 +38,7 @@ namespace BusinessService.Implementation
                 return null;
             }
 
-            var model = new EnrollmentsViewModel()
+            var model = new EnrollmentViewModel()
             {
                 EnrollmentID = enrollment.EnrollmentID,
                 CourseID = enrollment.CourseID,
@@ -51,12 +51,12 @@ namespace BusinessService.Implementation
         }
 
         // Create new Enrollment
-        public async Task<EnrollmentsViewModel> CreateEnrollment(EnrollmentsViewModel model)
+        public async Task<EnrollmentViewModel> CreateEnrollment(EnrollmentViewModel model)
         {
             var enrollment = new Enrollment()
             {
                 Grade = model.Grade,
-           
+
             };
 
             _context.Enrollments.Add(enrollment);
@@ -70,7 +70,7 @@ namespace BusinessService.Implementation
         }
 
         // Update Enrollment
-        public async Task<EnrollmentsViewModel?> UpdateEnrollment(EnrollmentsViewModel model)
+        public async Task<EnrollmentViewModel?> UpdateEnrollment(EnrollmentViewModel model)
         {
             var enrollment = await _context.Enrollments.FindAsync(model.EnrollmentID);
             if (enrollment == null)
@@ -79,7 +79,7 @@ namespace BusinessService.Implementation
             }
 
             enrollment.Grade = model.Grade;
-          
+
 
             _context.Enrollments.Update(enrollment);
             await _context.SaveChangesAsync();
@@ -100,29 +100,9 @@ namespace BusinessService.Implementation
             return true;
         }
 
-        public Task<IEnumerable<GradeViewModel>> GetGrades()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<GradeViewModel> CreateGrade(GradeViewModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<GradeViewModel?> GetGradeById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<GradeViewModel?> UpdateGrade(GradeViewModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteGrade(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
+
+
+
+  

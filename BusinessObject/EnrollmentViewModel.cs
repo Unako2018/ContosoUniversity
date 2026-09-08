@@ -12,9 +12,6 @@ namespace BusinessObject
         
         public string Grade { get; set; }
 
-        public EnrollmentsViewModel Course { get; set; }
-        public StudentViewModel Student { get; set; }
-
     }
 }
 

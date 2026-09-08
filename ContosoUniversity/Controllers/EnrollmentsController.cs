@@ -1,122 +1,110 @@
-﻿using DataAccess.EntitySet;
+﻿using BusinessService.Implementation;
+using BusinessLogic.Interface;
+using BusinessObject;
+using ContosoUniversity.Models;
+using DataAccess.EntitySet;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 namespace ContosoUniversity.Controllers
 {
     public class EnrollmentsController : Controller
     {
-        private readonly SchoolContext _context;
+        private readonly IEnrollmentService _enrollmentService;
 
-        public EnrollmentsController(SchoolContext context)
+        public EnrollmentsController(IEnrollmentService enrollmentService)
         {
-            _context = context;
+            _enrollmentService = enrollmentService;
         }
 
-        // GET: /Enrollments
-        public IActionResult Index()
+        // GET: /Enrollments// for index
+        public async Task<IActionResult> Index()
         {
-            var enrollments = _context.Enrollments
-                .Include(e => e.Student)
-                .Include(e => e.Course)
-                .ToList();
-
-            return View(enrollments);
+            var model = await _enrollmentService.GetEnrollments();
+            return View(model);
         }
 
-        // GET: /Enrollments/Create
+        // GET: /Enrollments/Create// this is for the create button for enrollments 
         public IActionResult Create()
         {
-            ViewData["Students"] = new SelectList(_context.Students, "ID", "LastName");
-            ViewData["Courses"] = new SelectList(_context.Courses, "CourseID", "Title");
             return View();
         }
 
-        // POST: /Enrollments/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Enrollment enrollment)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(enrollment);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
 
-            ViewData["Students"] = new SelectList(_context.Students, "ID", "LastName", enrollment.StudentID);
-            ViewData["Courses"] = new SelectList(_context.Courses, "CourseID", "Title", enrollment.CourseID);
-            return View(enrollment);
+
+        // GET: Enrollments/Create//this is for the edit
+        public async Task<IActionResult> Edit(int Id)
+        {
+            var model = await _enrollmentService.GetEnrollmentById(Id);
+            return View(model);
+
         }
 
-        // GET: /Enrollments/Edit/5
-        public IActionResult Edit(int id)
+        // GET: Enrollments/Delete/
+        public async Task<IActionResult> Delete(int? id)
         {
-            var enrollment = _context.Enrollments
-                .Include(e => e.Student)
-                .Include(e => e.Course)
-                .FirstOrDefault(e => e.EnrollmentID == id);
-
-            if (enrollment == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            ViewData["Students"] = new SelectList(_context.Students, "ID", "LastName", enrollment.StudentID);
-            ViewData["Courses"] = new SelectList(_context.Courses, "CourseID", "Title", enrollment.CourseID);
-            return View(enrollment);
-        }
+            var model = await _enrollmentService.GetEnrollmentById(id ?? 0);
 
-        // POST: /Enrollments/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Enrollment enrollment)
-        {
-            if (id != enrollment.EnrollmentID)
+            if (model == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                _context.Update(enrollment);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewData["Students"] = new SelectList(_context.Students, "ID", "LastName", enrollment.StudentID);
-            ViewData["Courses"] = new SelectList(_context.Courses, "CourseID", "Title", enrollment.CourseID);
-            return View(enrollment);
+            return View(model);
         }
 
-        // GET: /Enrollments/Delete/5
-        public IActionResult Delete(int id)
-        {
-            var enrollment = _context.Enrollments
-                .Include(e => e.Student)
-                .Include(e => e.Course)
-                .FirstOrDefault(e => e.EnrollmentID == id);
-
-            if (enrollment == null)
-            {
-                return NotFound();
-            }
-
-            return View(enrollment);
-        }
-
-        // POST: /Enrollments/Delete/5
+        // POST: ENROLLMENTS/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            var enrollment = _context.Enrollments.Find(id);
-            if (enrollment != null)
+            if (id == null)
             {
-                _context.Enrollments.Remove(enrollment);
-                _context.SaveChanges();
+                return NotFound();
+            }
+            var model = await _enrollmentService.DeleteEnrollment(id ?? 0);
+            if (model == false)
+            {
+                return NotFound();
             }
             return RedirectToAction(nameof(Index));
+
         }
+        // POST: Enrollments/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(EnrollmentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model = await _enrollmentService.CreateEnrollment(model); // Service saves to DB
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+
+        // POST: ENROLLMENTS/Edit/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int? id, [Bind("EnrollmentID , CourseID ,StudentID, Grade")] EnrollmentViewModel model)
+        {
+            if (id != model.EnrollmentID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                await _enrollmentService.UpdateEnrollment(model);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
     }
 }

@@ -2,9 +2,9 @@
 
 namespace DataAccess.EntitySet
 {
-    public class SchoolContext : DbContext
+    public class EnrollmentService : DbContext
     {
-        public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
+        public EnrollmentService(DbContextOptions<EnrollmentService> options) : base(options)
         {
         }
 

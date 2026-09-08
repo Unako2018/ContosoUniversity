@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 public class StudentsController : Controller
 {
-    private readonly SchoolContext _context;
+    private readonly StudentService _studentservice;
     private readonly IStudentService _studentService;
-    public StudentsController(SchoolContext context, IStudentService studentService)
+    public StudentsController(StudentService context, IStudentService studentService)
     {
         _context = context;
         _studentService = studentService;

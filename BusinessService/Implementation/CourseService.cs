@@ -7,19 +7,19 @@ namespace BusinessService.Implementation
 {
     public class CourseService : ICourseService
     {
-        private readonly SchoolContext _context;
+        private readonly CourseService _courseservice;
 
-        public CourseService(SchoolContext context)
+        public CourseService(CourseService courseservice)
         {
-            _context = context;
+            _courseservice = courseservice;
         }
         // Get all courses
-        public async Task<IEnumerable<EnrollmentsViewModel>> GetCourses()
+        public async Task<IEnumerable<CourseViewModel>> GetCourses()
         {
-            var courses = await _context.Courses.ToListAsync();
-            var model = courses.Select(c => new EnrollmentsViewModel()
+            var courses = await _courseservice.Courses.ToListAsync();
+            var model = courses.Select(c => new CoursesViewModel()
             {
-                EnrollmentID = c.CourseID,
+                CourseID = c.CourseID,
                 Title = c.Title,
                 Credits = c.Credits,
             });
@@ -28,9 +28,9 @@ namespace BusinessService.Implementation
         }
 
         // Get course by ID
-        public async Task<EnrollmentsViewModel?> GetCourseById(int id)
+        public async Task<CourseViewModel?> GetCourseById(int id)
         {
-            var course = await _context.Courses
+            var course = await _courseservice.Courses
                 .FirstOrDefaultAsync(m => m.CourseID == id);
 
             if (course == null)
@@ -38,9 +38,9 @@ namespace BusinessService.Implementation
                 return null;
             }
 
-            var model = new EnrollmentsViewModel()
+            var model = new CourseViewModel()
             {
-                EnrollmentID = course.CourseID,
+                CourseID = course.CourseID,
                 Title = course.Title,
                 Credits = course.Credits
             };
@@ -49,7 +49,7 @@ namespace BusinessService.Implementation
         }
 
         // Create new course
-        public async Task<EnrollmentsViewModel> CreateCourse(EnrollmentsViewModel model)
+        public async Task<CourseViewModel> CreateCourse(CourseViewModel model)
         {
             var course = new Course()
             {
@@ -57,17 +57,17 @@ namespace BusinessService.Implementation
                 Credits = model.Credits
             };
 
-            _context.Courses.Add(course);
-            await _context.SaveChangesAsync();
+            _courseservice.Courses.Add(course);
+            await _courseservice.SaveChangesAsync();
 
-            model.EnrollmentID = course.CourseID; // update with generated ID
+            model.CourseID = course.CourseID; // update with generated ID
             return model;
         }
 
         // Update course
-        public async Task<EnrollmentsViewModel?> UpdateCourse(EnrollmentsViewModel model)
+        public async Task<CourseViewModel?> UpdateCourse(CourseViewModel model)
         {
-            var course = await _context.Courses.FindAsync(model.EnrollmentID);
+            var course = await _courseservice.Courses.FindAsync(model.CourseID);
             if (course == null)
             {
                 return null;
@@ -76,23 +76,33 @@ namespace BusinessService.Implementation
             course.Title = model.Title;
             course.Credits = model.Credits;
 
-            _context.Courses.Update(course);
-            await _context.SaveChangesAsync();
+            _courseservice.Courses.Update(course);
+            await _courseservice.SaveChangesAsync();
 
             return model;
         }
         // Delete course
         public async Task<bool> DeleteCourse(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
+            var course = await _courseservice.Courses.FindAsync(id);
             if (course == null)
             {
                 return false;
             }
 
-            _context.Courses.Remove(course);
-            await _context.SaveChangesAsync();
+            _courseservice.Courses.Remove(course);
+            await _courseservice.SaveChangesAsync();
             return true;
         }
+    }
+
+    public class CourseViewModel
+    {
+        public object CourseID { get; internal set; }
+        public object Title { get; internal set; }
+        public object Credits { get; internal set; }
+    }
+    public interface ICourseService
+    {
     }
 }

@@ -1,45 +1,114 @@
-﻿
+﻿using BusinessService.Implementation;
+using BusinessLogic.Interface;
+using BusinessObject;
 using ContosoUniversity.Models;
 using DataAccess.EntitySet;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client.NativeInterop;
-
+using Microsoft.EntityFrameworkCore;
 namespace ContosoUniversity.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly SchoolContext _context;
+        private readonly ICourseService _courseService;
 
-        public CoursesController(SchoolContext context)
+        public CoursesController(ICourseService courseService)
         {
-            _context = context;
+            _courseService = courseService;
         }
 
-        // GET: /Courses
-        public IActionResult Index()
+        // GET: /Courses// for index
+        public async Task<IActionResult> Index()
         {
-            var courses = _context.Courses.ToList();
-            return View(courses);
+            var model = await _courseService.GetCourses();
+            return View(model);
         }
 
-        // GET: /Courses/Create
+        // GET: /Courses/Create// this is for the create button for Courses 
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: /Courses/Create
+        // GET: Courses /Create//this is for the edit
+        public async Task<IActionResult> Edit(int Id)
+        {
+            var model = await _courseService.GetCourseById(Id);
+            return View(model);
+
+        }
+
+
+        // GET: COURSES/Delete/
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var model = await _courseService.GetCourseById(id ?? 0);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+
+        // POST: COURSES/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var model = await _courseService.DeleteCourse(id ?? 0);
+            if (model == false)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        // POST: Courses/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Course course)
+        public async Task<IActionResult> Create(CourseViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(course);
-                _context.SaveChanges();
+                model = await _courseService.CreateCourse(model); // Service saves to DB
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View(model);
+        }
+
+        // POST: COURSES/Edit/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int? id, [Bind("CourseID,Title,Credits ")] CourseViewModel model)
+        {
+            if (id != model.CourseID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                await _courseService.UpdateCourse(model);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
         }
     }
 }
+
+
+
+
+        

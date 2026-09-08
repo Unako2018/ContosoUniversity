@@ -1,0 +1,20 @@
+﻿@model BusinessObject.CourseViewModel
+
+<h2>CourseDetails</h2>
+<hr />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Course</dt>
+        <dd class="col-sm-10">@Model.Course.Title</dd>
+
+        <dt class="col-sm-2">Course</dt>
+        <dd class="col-sm-10">@Model.Course.Credits</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CourseID" class="btn btn-warning">Edit</a>
+    <a asp-action="Delete" asp-route-id="@Model.CourseID" class="btn btn-danger">Delete</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

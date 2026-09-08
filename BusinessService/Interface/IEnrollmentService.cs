@@ -4,13 +4,12 @@ using System.Text;
 using BusinessObject;
 namespace BusinessLogic.Interface
 {
-    public interface IEnrollmentService
+    public interface IEnrollmentsService
     {
         Task<IEnumerable<EnrollmentViewModel>> GetEnrollments();
-        Task<EnrollmentsViewModel?> GetEnrollmentById(int id);
-        Task<EnrollmentsViewModel> CreateEnrollment(EnrollmentsViewModel model);
-        Task<EnrollmentsViewModel?> UpdateEnrollment(EnrollmentsViewModel model);
+        Task<EnrollmentViewModel?> GetEnrollmentById(int id);
+        Task<EnrollmentViewModel> CreateEnrollment(EnrollmentViewModel model);
+        Task<EnrollmentViewModel?> UpdateEnrollment(EnrollmentViewModel model);
         Task<bool> DeleteEnrollment(int id);
-
     }
 }
