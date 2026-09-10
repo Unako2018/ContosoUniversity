@@ -9,7 +9,7 @@ namespace DataAccess.EntitySetBuilder
         public void Configure(EntityTypeBuilder<Enrollment> entityBuilder)
         {
             entityBuilder.ToTable(nameof(Enrollment));
-            entityBuilder.HasKey(c => c.EnrollmentID);
+            entityBuilder.HasKey(c => c.EnrollmentName);
 
             entityBuilder.Property(c => c.CourseID).IsRequired();
             entityBuilder.Property(c => c.StudentID).IsRequired();

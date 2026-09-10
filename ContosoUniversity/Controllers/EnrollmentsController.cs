@@ -39,7 +39,6 @@ namespace ContosoUniversity.Controllers
 
             ViewBag.Students = new SelectList(students, "ID", "LastName");
             ViewBag.Courses = new SelectList(courses, "CourseID", "Title");
-
             ViewBag.Grades = new SelectList(grades, "GradeID","Name");
             return View();
         }

@@ -16,52 +16,51 @@ namespace BusinessService.Implementation
         // Get all Enrollments
         public async Task<IEnumerable<EnrollmentViewModel>> GetEnrollments()
         {
-            var enrollments = await _context.Enrollments.Include(e => e.Grade)
-                                                        .Include(e => e.Course)
-                                                        .Include(e => e.Student)
+            var enrollments = await _context.Enrollments.Include(e => e.GradeName)
+                                                        .Include(e => e.CourseName)
+                                                        .Include(e => e.StudentName)
                 .ToListAsync();
             var model = enrollments.Select(e => new EnrollmentViewModel()
             {
-                EnrollmentID = e.EnrollmentID,
-                CourseName = e.Course.Title,
-                StudentName = e.Student.FirstMidName,
-                GradeName = e.Grade.Name
+                CourseName = e.CourseName,
+                StudentName = e.StudentName,
+                GradeName = e.GradeName
 
             });
             return model;
         }
 
-        // Get enrollment by ID
-        public async Task<EnrollmentViewModel?> GetEnrollmentById(int id)
+        // Get enrollment by Names /not nullable 
+        public async Task<EnrollmentViewModel?> GetEnrollmentByName(string name)
         {
             var enrollment = await _context.Enrollments
-                .FirstOrDefaultAsync(m => m.EnrollmentID == id);
+                .Include(e => e.StudentName)
+                .Include(e => e.CourseName)
+                 .Include(e => e.GradeName)
+                .FirstOrDefaultAsync(e => e.StudentName == name);
 
             if (enrollment == null)
             {
                 return null;
             }
 
-            var model = new EnrollmentViewModel()
+            var model = new EnrollmentViewModel
             {
-                EnrollmentID = enrollment.EnrollmentID,
-                CourseID = enrollment.CourseID,
-                StudentID = enrollment.StudentID,
-                GradeID = enrollment.GradeID,
-
+                StudentName = enrollment.StudentName,
+                CourseName = enrollment.CourseName,
+                GradeName = enrollment.GradeName,
             };
 
             return model;
         }
-
         // Create new Enrollment
         public async Task<EnrollmentViewModel> CreateEnrollment(EnrollmentViewModel model)
         {
             var enrollment = new Enrollment()
             {
-                GradeID = model.GradeID,
-                StudentID = model.StudentID,
-                CourseID = model.CourseID,
+                GradeName = model.GradeName,
+                StudentName = model.StudentName,
+                CourseName = model.CourseName,
             };
             _context.Enrollments.Add(enrollment);
             await _context.SaveChangesAsync();
@@ -78,7 +77,7 @@ namespace BusinessService.Implementation
                 return null;
             }
 
-            enrollment.GradeID = model.GradeID;
+            enrollment.GradeName = model.GradeName;
 
 
             _context.Enrollments.Update(enrollment);
@@ -100,6 +99,10 @@ namespace BusinessService.Implementation
             return true;
         }
 
+        public Task<EnrollmentViewModel?> GetEnrollmentById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
