@@ -2,6 +2,7 @@
   <Folder Name="/BusinessLogic/">
     <Project Path="BusinessObject/BusinessObject.csproj" Id="27ec4565-5eae-4f8d-9994-491af24f9693" />
     <Project Path="BusinessService/BusinessLogic.csproj" Id="fb0e97a8-f3e0-47bd-8f51-ceaa62b63e2f" />
+    <Project Path="QuicklSignManager/QuicklSignManager.csproj" Id="1b0881f4-f022-40ea-9889-c34b2846f7b5" />
   </Folder>
   <Folder Name="/DataAccess/">
     <Project Path="DataAccess/DataAccess.csproj" Id="213ed578-9dfc-46cc-a8a0-3562fc6f20bf" />

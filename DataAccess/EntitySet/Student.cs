@@ -12,5 +12,8 @@ namespace DataAccess.EntitySet
         public DateTime EnrollmentDate { get; set; }
 
         public ICollection<Enrollment> Enrollments { get; set; }
+        public IList<ESignDocumentPack> ESignDocumentPacks { get; set; }
+        public IList<ESignWebhookLog> ESignWebhookLogs { get; set; }
+        public IList<ESignWebhookSubscription> EsignWebhookSubscriptions { get; set; }
     }
 }

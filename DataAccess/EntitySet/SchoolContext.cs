@@ -19,6 +19,12 @@ namespace DataAccess.EntitySet
             modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
             modelBuilder.Entity<Student>().ToTable("Student");
             modelBuilder.Entity<Grade>().ToTable("Grade");
+            modelBuilder.ApplyConfiguration(new ESignDocumentPackBuilder());
+            modelBuilder.ApplyConfiguration(new ESignDocumentEntityBuilder());
+            modelBuilder.ApplyConfiguration(new ESignWebhookEventBuilder());
+            modelBuilder.ApplyConfiguration(new ESignWebhookLogBuilder());
+            modelBuilder.ApplyConfiguration(new EsignWebhookSubscriptionBuilder());
+            modelBuilder.ApplyConfiguration(new ESignDocumentStatusBuilder());
         }
     }
 }
