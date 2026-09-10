@@ -10,5 +10,6 @@
         public string? GradeName { get; set; }
         public string? StudentName { get; set; }
         public string? CourseName { get; set; }
+        public string? EnrollmentName { get; set; }
     }
 }

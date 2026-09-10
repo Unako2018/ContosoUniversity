@@ -64,14 +64,14 @@ namespace BusinessService.Implementation
             };
             _context.Enrollments.Add(enrollment);
             await _context.SaveChangesAsync();
-            // update with generated ID
+            // update with generated Name
             return model;
         }
 
         // Update Enrollment
         public async Task<EnrollmentViewModel?> UpdateEnrollment(EnrollmentViewModel model)
         {
-            var enrollment = await _context.Enrollments.FindAsync(model.EnrollmentID);
+            var enrollment = await _context.Enrollments.FindAsync(model.EnrollmentName);
             if (enrollment == null)
             {
                 return null;
@@ -86,9 +86,9 @@ namespace BusinessService.Implementation
             return model;
         }
         // Delete Enrollment
-        public async Task<bool> DeleteEnrollment(int id)
+        public async Task<bool> DeleteEnrollment(String Name)
         {
-            var enrollment = await _context.Enrollments.FindAsync(id);
+            var enrollment = await _context.Enrollments.FindAsync(Name);
             if (enrollment == null)
             {
                 return false;
@@ -99,7 +99,17 @@ namespace BusinessService.Implementation
             return true;
         }
 
+        public Task<EnrollmentViewModel?> GetEnrollmentById(string Name)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<EnrollmentViewModel?> GetEnrollmentById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteEnrollment(int id)
         {
             throw new NotImplementedException();
         }

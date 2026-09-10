@@ -92,9 +92,19 @@ namespace ContosoUniversity.Controllers
         {
             if (ModelState.IsValid)
             {
-                model = await _enrollmentService.CreateEnrollment(model); // Service saves to DB
+                await _enrollmentService.CreateEnrollment(model);
                 return RedirectToAction(nameof(Index));
             }
+
+            // Repopulate dropdowns if validation fails
+            var students = await _studentService.GetStudents();
+            var courses = await _courseService.GetCourses();
+            var grades = await _gradeService.GetGrades();
+
+            ViewBag.Students = new SelectList(students, "StudentName", "LastName", model.StudentName);
+            ViewBag.Courses = new SelectList(courses, "CourseName", "Title", model.CourseName);
+            ViewBag.Grades = new SelectList(grades, "GradeName", "Name", model.GradeName);
+
             return View(model);
         }
 
@@ -102,9 +112,9 @@ namespace ContosoUniversity.Controllers
         // POST: ENROLLMENTS/Edit/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("EnrollmentID , CourseID ,StudentID, Grade")] EnrollmentViewModel model)
+        public async Task<IActionResult> Edit(string Name, EnrollmentViewModel model)
         {
-            if (id != model.EnrollmentID)
+            if (string.IsNullOrEmpty(model.EnrollmentName) || Name != model.EnrollmentName)
             {
                 return NotFound();
             }
@@ -114,8 +124,16 @@ namespace ContosoUniversity.Controllers
                 await _enrollmentService.UpdateEnrollment(model);
                 return RedirectToAction(nameof(Index));
             }
+            var students = await _studentService.GetStudents();
+            var courses = await _courseService.GetCourses();
+            var grades = await _gradeService.GetGrades();
+
+            ViewBag.Students = new SelectList(students, "ID", "LastName", model.StudentName);
+            ViewBag.Courses = new SelectList(courses, "CourseID", "Title", model.CourseName);
+            ViewBag.Grades = new SelectList(grades, "GradeID", "Name", model.GradeName);
+
             return View(model);
         }
-
     }
-}
+
+ }

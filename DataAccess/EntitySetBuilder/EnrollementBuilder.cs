@@ -13,6 +13,7 @@ namespace DataAccess.EntitySetBuilder
 
             entityBuilder.Property(c => c.CourseID).IsRequired();
             entityBuilder.Property(c => c.StudentID).IsRequired();
+            entityBuilder.Property(c => c.GradeID).IsRequired();
 
 
             entityBuilder
